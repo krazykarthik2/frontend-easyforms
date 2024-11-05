@@ -6,7 +6,18 @@
 
 }
 @layer components{
-
+    .stack{
+        @apply flex flex-col gap-2
+    }
+    .d-center{
+        @apply flex justify-center items-center
+    }
+    .unlink{
+        @apply text-white no-underline
+    }
+    .unbtn{
+        @apply bg-transparent border-none cursor-pointer text-white m-0 p-0
+    }
 }
 @layer utilities{
 

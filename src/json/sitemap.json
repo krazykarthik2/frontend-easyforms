@@ -1,0 +1,65 @@
+{
+  "users": {
+    "account": {
+      "profile": "/users/me",
+      "edit": "/users/me/edit",
+      "delete": "/users/me/delete",
+      "logout": "/auth/user/logout"
+    },
+    "help": {
+      "/": "/help",
+      "backend": "/help/backend",
+      "frontend": "/help/frontend"
+    }
+
+  },
+  "admins": {
+    "/": "/admins",
+    "create": "/admins/create",
+    "login": "/admins/login",
+    "welcome": "/",
+    "account": {
+      "profile": "/admins/me",
+      "edit": "/admins/me/edit",
+      "delete": "/admins/me/delete"
+    },
+    "sitemap": "/sitemap",
+    "auth": {
+      "users": {
+        "create": "/users/create"
+      },
+      "admin": {
+        "create": "/admins/create"
+      }
+    },
+    "events": {
+      "/": "/events",
+      "create": "/events/create",
+      "edit/:id": "/events/edit/:id",
+      "delete/:id": "/events/delete/:id",
+      "id/:id": {
+        "/": "/events/id/:id",
+        "forms": {
+          "/": "/events/id/:id/forms",
+          "id/:id": "/events/id/:id/forms/id/:id"
+        },
+        "edit/:id": "/events/id/:id/edit/:id",
+        "delete/:id": "/events/id/:id/delete/:id"
+      }
+    },
+    "help": {
+      "/": "/help",
+      "backend": "/help/backend",
+      "frontend": "/help/frontend"
+    }
+  },
+  "notloggedin": {
+    "user": {
+      "login": "/auth/user/login",
+      "register": "/users/create"
+    },
+    "admin": {
+      "login": "/auth/admin/login"
+    }
+  }
+}
