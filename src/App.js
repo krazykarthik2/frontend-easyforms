@@ -73,6 +73,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [admin, setAdmin] = useState(null);
   const [token, setToken] = useState(null);
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -97,6 +98,7 @@ function App() {
       }
     }
   }, []);
+
   useEffect(() => {
     if (token) {
       localStorage.setItem("token", token);

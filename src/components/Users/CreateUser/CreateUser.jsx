@@ -16,7 +16,7 @@ function CreateUser() {
       pending:"Creating user",
       success:"User created successfully",
       error: "Failed to create user",
-      then: () => navigate("/users"),
+      then: () => navigate("/"),
     });
   };
   return (
