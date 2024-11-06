@@ -6,13 +6,13 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { adminLoginJWT, userLoginJWT } from "./utils/api_calls/auth";
 import "react-toastify/dist/ReactToastify.css";
-import {jwtDecode} from "jsonwebtoken";
+import jwtDecode from "jwt-decode";
 const Sitemap = lazy(() => import("./components/Sitemap/Sitemap"));
 const Welcome = lazy(() => import("./components/Welcome/Welcome"));
 const UserLogin = lazy(() =>
   import("./components/Auth/User/UserLogin/UserLogin")
 );
-const UserLogout = lazy(() =>
+const UserLogout = lazy(() => 
   import("./components/Auth/User/UserLogout/UserLogout")
 );
 const AdminLogin = lazy(() =>
@@ -73,7 +73,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [admin, setAdmin] = useState(null);
   const [token, setToken] = useState(null);
-  
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
