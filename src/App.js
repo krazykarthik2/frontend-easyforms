@@ -6,7 +6,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { adminLoginJWT, userLoginJWT } from "./utils/api_calls/auth";
 import "react-toastify/dist/ReactToastify.css";
-import jwtDecode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 const Sitemap = lazy(() => import("./components/Sitemap/Sitemap"));
 const Welcome = lazy(() => import("./components/Welcome/Welcome"));
 const UserLogin = lazy(() =>
