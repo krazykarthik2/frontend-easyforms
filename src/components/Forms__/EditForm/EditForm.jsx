@@ -2,7 +2,7 @@ import React from 'react'
 
 function EditForm() {
   return (
-    <div>EditForm</div>
+    <div>Forms Can't be edited</div>
   )
 }
 

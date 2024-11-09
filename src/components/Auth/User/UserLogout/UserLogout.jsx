@@ -3,13 +3,16 @@ import { userLogout } from "../../../../utils/api_calls/auth";
 import { useNavigate } from "react-router-dom";
 
 
-function UserLogout({ setUser }) {
+  function UserLogout({ onLogout,token }) {
   const navigate = useNavigate();
   useEffect(() => {
-    userLogout().then((data) => {
-      setUser(null);
+    userLogout(token).then((data) => {
+      onLogout();
       navigate("/");
-    });
+    }).catch(err=>{
+      onLogout();
+      console.log(err);
+    })
   }, []);
   return <></>;
 }

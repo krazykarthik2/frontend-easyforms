@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { adminLogout } from "../../../../utils/api_calls/auth";
 import { useNavigate } from "react-router-dom";
 
-function AdminLogout({ setAdmin }) {
+function AdminLogout({ onLogout,token  }) {
   const navigate = useNavigate();
   useEffect(() => {
-    adminLogout().then((data) => {
-      setAdmin(null);
+    adminLogout(token).then((data) => {
+      onLogout();
       navigate("/");
     });
   }, []);

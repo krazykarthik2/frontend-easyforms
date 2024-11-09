@@ -11,26 +11,24 @@
       "backend": "/help/backend",
       "frontend": "/help/frontend"
     }
-
   },
   "admins": {
-    "/": "/admins",
-    "create": "/admins/create",
-    "login": "/admins/login",
+    "admins": {
+      "create": "/admins/create",
+      "search": "/admins/search"
+    },
     "welcome": "/",
     "account": {
       "profile": "/admins/me",
       "edit": "/admins/me/edit",
-      "delete": "/admins/me/delete"
+      "delete": "/admins/me/delete",
+      "logout": "/auth/admin/logout"
     },
     "sitemap": "/sitemap",
-    "auth": {
-      "users": {
-        "create": "/users/create"
-      },
-      "admin": {
-        "create": "/admins/create"
-      }
+
+    "users": {
+      "create": "/users/create",
+      "search": "/users/search"
     },
     "events": {
       "/": "/events",
@@ -41,10 +39,10 @@
         "/": "/events/id/:id",
         "forms": {
           "/": "/events/id/:id/forms",
-          "id/:id": "/events/id/:id/forms/id/:id"
+          "id/:id": "/events/id/:id/forms/id/:formId"
         },
-        "edit/:id": "/events/id/:id/edit/:id",
-        "delete/:id": "/events/id/:id/delete/:id"
+        "edit/:id": "/events/id/:id/edit/:formId",
+        "delete/:id": "/events/id/:id/delete/:formId"
       }
     },
     "help": {

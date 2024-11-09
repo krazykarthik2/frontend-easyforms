@@ -4,7 +4,6 @@ export const toastPromise = (
   promise,
   { pending, error, success, then = () => {}, catch_ = () => {} }
 ) => {
-  console.log(promise);
   toast.promise(
     new Promise(async (res, rej) => {
       try {

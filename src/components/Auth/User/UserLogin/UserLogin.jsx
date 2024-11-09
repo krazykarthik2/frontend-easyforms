@@ -3,7 +3,7 @@ import { userLogin } from "../../../../utils/api_calls/auth.js";
 import { toastPromise } from "../../../../utils/toastify.js";
 import { useNavigate } from "react-router-dom";
 import Password from "../../../utils/Password.jsx";
-function UserLogin({setUser,setToken}) {
+function UserLogin({onLogin}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -15,8 +15,7 @@ function UserLogin({setUser,setToken}) {
       success: "Logged in successfully",
       then: (data) => {
         if (data) {
-          setUser(data.user);
-          setToken(data.token);
+          onLogin({role:"user",token:data.token,user:data.user});
           navigate("/");
         }
       },

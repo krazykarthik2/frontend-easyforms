@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { adminLogin } from '../../../../utils/api_calls/auth';
 import Password from "../../../utils/Password.jsx";
 import { toastPromise } from '../../../../utils/toastify.js';
-function AdminLogin({setAdmin,setToken}) {
+function AdminLogin({onLogin}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -15,8 +15,7 @@ function AdminLogin({setAdmin,setToken}) {
       success: "Logged in successfully",
       then: (data) => {
         if(data){
-          setAdmin(data.admin);
-          setToken(data.token);
+          onLogin({role:"admin",token:data.token,user:data.admin});
         }
       },
     });
