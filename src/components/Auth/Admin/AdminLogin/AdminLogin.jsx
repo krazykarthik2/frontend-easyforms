@@ -16,6 +16,7 @@ function AdminLogin({onLogin}) {
       then: (data) => {
         if(data){
           onLogin({role:"admin",token:data.token,user:data.admin});
+          navigate("/");
         }
       },
     });

@@ -44,7 +44,7 @@ function CreateEvent({token}) {
             id="eventSlug"
             type="text"
             value={eventSlug}
-            onChange={(e) => setEventSlug(e.target.value)}
+            onChange={(e) => setEventSlug(e.target.value.replace(/ /g, "_").replace(/[^a-zA-Z0-9_]/g, ""))}
           />
         </div>
         <div className="stack">

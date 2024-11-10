@@ -8,7 +8,9 @@ import {
 import { respondToForm } from "../../../utils/api_calls/respond";
 import { DateTimeFormat } from "../../../utils/formats/formats";
 import { toastPromise } from "../../../utils/toastify";
+import { checkResponse } from "../../../utils/api_calls/respond";
 import { arrWithIndex } from "../../../utils/react";
+import { toast } from "react-toastify";
 import {
   DateInput,
   EmailInput,
@@ -153,7 +155,16 @@ function RespondForm({ token }) {
   window.response = response;
   window.form = form;
   useEffect(() => {
-    setResponse(Array(form?.attributes?.length).fill(""));
+    if(!form) return;
+    checkResponse(form._id, token).then((data) => {
+      if (data.result) {
+        toast.error(data.message);
+        navigate("/");
+        return;
+      }else{
+        setResponse(Array(form?.attributes?.length).fill(""));
+      }
+    });
   }, [form]);
   useEffect(() => {
     if (params.formId) {
@@ -205,7 +216,7 @@ function RespondForm({ token }) {
       };
     });
     window.calcResponse = calcResponse;
-
+    
     toastPromise(() => respondToForm(form._id, calcResponse, token), {
       pending: "Responding to form...",
       success: "Form Responded Successfully",
