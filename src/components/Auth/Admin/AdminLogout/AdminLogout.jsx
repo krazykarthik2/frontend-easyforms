@@ -10,7 +10,7 @@ function AdminLogout({ onLogout,token  }) {
       navigate("/");
     });
   }, []);
-  return <></>;
+  return <>Logging out...</>;
 }
 
 export default AdminLogout;

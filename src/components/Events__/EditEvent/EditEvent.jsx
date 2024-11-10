@@ -8,7 +8,6 @@ import MdEditor from "@uiw/react-md-editor";
 function EditEvent({ token }) {
   const params = useParams();
   const [event, setEvent] = useState({});
-  window.event = event;
   const navigate = useNavigate();
   useEffect(() => {
     toastPromise(() => getEventById(params.id, token), {
@@ -47,6 +46,15 @@ function EditEvent({ token }) {
             type="text"
             value={event?.name || ""}
             onChange={(e) => setEvent((x) => ({ ...x, name: e.target.value }))}
+          />
+        </div>
+        <div className="stack">
+          <label htmlFor="eventSlug">Event Slug</label>
+          <input
+            id="eventSlug"
+            type="text"
+            value={event?.eventSlug || ""}
+            onChange={(e) => setEvent((x) => ({ ...x, eventSlug: e.target.value }))}
           />
         </div>
         <div className="stack">

@@ -68,6 +68,7 @@ const DeleteEvent = lazy(() =>
 );
 const Forms = lazy(() => import("./components/Forms__/Forms/Forms"));
 const Form = lazy(() => import("./components/Forms__/Form/Form"));
+const RespondForm = lazy(() => import("./components/Users/RespondForm/RespondForm"));
 const CreateForm = lazy(() =>
   import("./components/Forms__/CreateForm/CreateForm")
 );
@@ -280,11 +281,11 @@ function App() {
                       path="login"
                       element={<AdminLogin onLogin={handleLogin} />}
                     />
-                  </Route>
                   <Route
                     path="logout"
                     element={<AdminLogout onLogout={handleLogout} token={token}/>}
                   />
+                  </Route>
                 </Route>
                 <Route path="events">
                   <Route path="" element={<ShowEvents  __admin={admin} token={token}/>} />
@@ -299,7 +300,19 @@ function App() {
                       <Route path="create" element={<CreateForm __admin={admin}  token={token}/>} />
                       <Route path="edit/:formId" element={<EditForm __admin={admin}  token={token}/>} />
                       <Route path="delete/:formId" element={<DeleteForm __admin={admin}  token={token}/>} />
+                      <Route path="responses" element={<Responses token={token}/>} />
                     </Route>
+                  </Route>
+                  <Route path="s/:eventSlug">
+                    <Route path="" element={<Event  __admin={admin} />} />
+                    <Route path="forms">
+                      <Route path="respond">
+                        <Route path="s/:slug" element={<RespondForm token={token}/>} />
+                        <Route path="id/:formId" element={<RespondForm token={token}/>} />
+                      </Route>
+                      <Route path="s/:slug" element={<Form  __admin={admin} token={token}/>} />
+                    </Route>
+
                   </Route>
                   <Route path="edit/:id" element={<EditEvent __admin={admin}  token={token}/>} />
                   <Route path="delete/:id" element={<DeleteEvent __admin={admin}  token={token}/>} />

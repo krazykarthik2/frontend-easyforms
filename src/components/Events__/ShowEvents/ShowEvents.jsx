@@ -36,6 +36,7 @@ function ShowEvents({ token }) {
               <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Event Slug</th>
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Forms</th>
@@ -54,6 +55,7 @@ function ShowEvents({ token }) {
                   </div>
                 </td>
                 <td>{event.name}</td>
+                <td>{event.eventSlug}</td>
                 <td>{DateFormat(event.startDate)}</td>
                 <td>{DateFormat(event.endDate)}</td>
                 <td>

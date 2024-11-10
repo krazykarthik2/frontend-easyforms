@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 function CreateEvent({token}) {
   const [name, setName] = useState("");
+  const [eventSlug, setEventSlug] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [eventDescriptionLong, setEventDescriptionLong] = useState("");
@@ -13,6 +14,7 @@ function CreateEvent({token}) {
   const handleCreate = () => {
     const event = {
       name:name,
+      eventSlug:eventSlug,
       startDate:startDate,
       endDate:endDate,
       event_description_long:eventDescriptionLong
@@ -36,7 +38,15 @@ function CreateEvent({token}) {
     <div className="w-full h-full d-center">
       <form onSubmit={handleSubmit} className="w-full h-full justify-evenly d-center stack">
         <div className="text-3xl">Create Event</div>
-        
+        <div className="stack">
+          <label htmlFor="eventSlug">Event Slug</label>
+          <input
+            id="eventSlug"
+            type="text"
+            value={eventSlug}
+            onChange={(e) => setEventSlug(e.target.value)}
+          />
+        </div>
         <div className="stack">
           <label htmlFor="name">Name</label>
           <input

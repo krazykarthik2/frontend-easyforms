@@ -17,37 +17,47 @@ export const adminLogin = async (email, password) => {
 };
 
 export const userLoginJWT = async (token) => {
-  if(!token) return;
-  const response = await api.post("/user/login/jwt",{
-    data:null
-  }, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  if (!token) return;
+  const response = await api.post(
+    "/user/login/jwt",
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return response.data;
 };
 
 export const adminLoginJWT = async (token) => {
-  if(!token) return;
+  if (!token) return;
   const response = await api.post(
     "/admin/login/jwt",
-    { data: null },
+    {},
     { headers: { Authorization: `Bearer ${token}` } }
   );
   return response.data;
 };
 
 export const userLogout = async (token) => {
-  const response = await api.post("/user/logout", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const response = await api.post(
+    "/user/logout",
+    {},
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
   return response.data;
 };
 
 export const adminLogout = async (token) => {
-  const response = await api.post("/admin/logout", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const response = await api.post(
+    "/admin/logout",
+    {},
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
   return response.data;
 };
