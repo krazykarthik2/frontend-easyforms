@@ -222,7 +222,7 @@ function App() {
     <div className="w-full h-full gap-0 overflow-hidden stack d-center">
       <Suspense fallback={<>Loading...</>}>
         <Router>
-          <Navbar onClick={() => setMenu((e) => !e)} />
+          <Navbar  isActive={menu} onClick={() => setMenu((e) => !e)} />
           <div className="flex w-full h-full overflow-hidden">
             {secsLeft}
             <Menu

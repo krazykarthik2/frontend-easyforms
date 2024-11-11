@@ -4,24 +4,34 @@ import { getFormById } from "../../utils/api_calls/forms";
 import { getResponses } from "../../utils/api_calls/responses";
 import { idFormat } from "../../utils/formats/formats";
 function ShowRadioDropdown({question,answer}){
+  if(!answer) return null;
   return <div> {question?.radioInput?.[answer?.radioInput] || question?.dropdownInput?.[answer?.dropdownInput]}</div>
 }
 function ShowCheckbox({attribute,answer}){
-  return <div>{answer.map((answer)=>attribute.checkboxInput[answer])}</div>
+  if(!answer) return null;
+  return <div>{answer?.map((answer)=>attribute.checkboxInput[answer.checkboxInput])}</div>
 }
 function ShowDate({attribute,answer}){
+  if(!answer) return null;
   return <div>{JSON.stringify(answer)}</div>
 }
 function ShowParagraph({attribute,answer}){
+  if(!answer) return null;
   return <div>{JSON.stringify(answer)}</div>
 } 
 function ShowResponse({attribute,answer}){
+  if(!answer) return null;
   return attribute&&attribute.question && <>
-  {"radioInput" in attribute.question || "dropdownInput" in attribute.question ? <ShowRadioDropdown question={attribute.question} answer={answer}/> : null}
-  {"checkboxInput" in attribute.question ? <ShowCheckbox attribute={attribute} answer={answer}/> : null}
-  {"dateInput" in attribute.question||"timeInput" in attribute.question||"datetimeInput" in attribute.question ? <ShowDate attribute={attribute} answer={answer}/> : null}
-  {"paragraphInput" in attribute.question ? <ShowParagraph attribute={attribute} answer={answer} /> : null}
-  {"numberInput" in attribute.question||"textInput" in attribute.question||"emailInput" in attribute.question ? <div>{answer.textInput || answer.numberInput || answer.emailInput }</div>:null}
+  {("radioInput" in attribute.question ) &&<ShowRadioDropdown question={attribute.question} answer={answer.radioInput}/>}
+  {("dropdownInput" in attribute.question) && <ShowRadioDropdown question={attribute.question} answer={answer.dropdownInput}/>}
+  {("checkboxInput" in attribute.question) && <ShowCheckbox attribute={attribute} answer={answer.checkboxInput}/>}
+  {("dateInput" in attribute.question) && <ShowDate attribute={attribute} answer={answer.dateInput}/>}
+  {("timeInput" in attribute.question) && <ShowDate attribute={attribute} answer={answer.timeInput}/>}
+  {("datetimeInput" in attribute.question) && <ShowDate attribute={attribute} answer={answer.datetimeInput}/>}
+  {"paragraphInput" in attribute.question && <ShowParagraph attribute={attribute} answer={answer.paragraphInput} />}
+  {("numberInput" in attribute.question ) && <div>{answer.numberInput}</div>}
+  {("textInput" in attribute.question ) && <div>{answer.textInput}</div>}
+  {("emailInput" in attribute.question ) && <div>{answer.emailInput}</div>}
     </>
 }
 function Responses({ token }) {
