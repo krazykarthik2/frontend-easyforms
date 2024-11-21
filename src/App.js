@@ -7,6 +7,14 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import "./tailwind.css";
 import { adminLoginJWT, userLoginJWT } from "./utils/api_calls/auth";
+import Loading from "./components/utils/Loading";
+
+
+
+//-----------------start-lazy-imports---------------------//
+const CreateEventImage = lazy(() => import("./components/EventImages/CreateEventImage/CreateEventImage"));
+const DeleteEventImage = lazy(() => import("./components/EventImages/DeleteEventImage/DeleteEventImage"));
+const ViewEventImages = lazy(() => import("./components/EventImages/ViewEventImages/ViewEventImages"));
 const Sitemap = lazy(() => import("./components/Sitemap/Sitemap"));
 const Welcome = lazy(() => import("./components/Welcome/Welcome"));
 const UserLogin = lazy(() =>
@@ -87,12 +95,18 @@ const FrontendHelp = lazy(() =>
 const NotFound = lazy(() => import("./components/NotFound/NotFound"));
 const Navbar = lazy(() => import("./components/Navbar/Navbar"));
 const Menu = lazy(() => import("./components/Menu/Menu"));
+//------------------------end-imports---------------------------
 
 
+
+//------------------------start-constants------------------------
 const expMap = {
   "1h": 3600,
   "1d": 86400,
 };
+//------------------------end-constants--------------
+
+
 
 function App() {
   const [menu, setMenu] = useState(false);
@@ -101,10 +115,10 @@ function App() {
 
   const [token, setToken] = useState(null);
   const [cookies, setCookie, removeCookie] = useCookies(["jwt"]);
-
   const [secsLeft, setSecsLeft] = useState(null);
+  const [stopSecsLeft, setStopSecsLeft] = useState(false);
 
-  useEffect(() => {
+  const __useEffectTriggerForHandlingJWTCookie = () => {
     if(token) return;
     if(user || admin) return;
     if (!cookies.jwt) return;
@@ -137,10 +151,9 @@ function App() {
       setSecsLeft(0);
       return;
     }
-
     const intervalId = setInterval(() => {
       setSecsLeft((prevSecs) => {
-        if (prevSecs > 0) {
+        if (prevSecs > 0 ) {
           return prevSecs - 1;
         } else {
           clearInterval(intervalId);
@@ -149,8 +162,9 @@ function App() {
       });
     }, 1000);
     return () => clearInterval(intervalId);
-  }, [cookies.jwt,removeCookie]);
-
+  };
+  useEffect(__useEffectTriggerForHandlingJWTCookie, [cookies.jwt,removeCookie]);
+  
   const setLoginCookie = (role, jwtToken) => {
     const cookieValue = JSON.stringify({ role: role, token: jwtToken });
     setCookie("jwt", cookieValue, {
@@ -160,6 +174,17 @@ function App() {
   function handleLogin({ role, token, user }) {
     setToken(token);
     setLoginCookie(role, token);
+    
+    const intervalId = setInterval(() => { //////////TODO: clean this interval id
+      setSecsLeft((prevSecs) => {
+        if (prevSecs > 0 ) {
+          return prevSecs - 1;
+        } else {
+          clearInterval(intervalId);
+          return 0;
+        }
+      });
+    }, 1000);
     const decodedToken = jwtDecode(token);
     console.log(decodedToken);
     if(decodedToken.exp){
@@ -180,6 +205,7 @@ function App() {
     setUser(null);
     setAdmin(null);
     setToken(null);
+    setSecsLeft(0);
   };
   function tryJWTLogin(jwtToken) {
     if(!jwtToken) return;
@@ -218,13 +244,23 @@ function App() {
     }
   }
 
+  function handleNavbarMenu(){
+  
+    setMenu((prev) => !prev);
+  }
+  const handleKeys = {
+    onEsc:()=>{
+      setMenu(false);
+      toast.dismiss();
+    }
+  }
   return (
     <div className="w-full h-full gap-0 overflow-hidden stack d-center">
-      <Suspense fallback={<>Loading...</>}>
+      <Suspense fallback={<Loading/>}>
         <Router>
-          <Navbar  isActive={menu} onClick={() => setMenu((e) => !e)} />
+          <Navbar isActive={menu} secsLeft={secsLeft} onClick={handleNavbarMenu} onEsc={handleKeys.onEsc} />
           <div className="flex w-full h-full overflow-hidden">
-            {secsLeft}
+            
             <Menu
               isActive={menu}
               state={admin ? "admins" : user ? "users" : "notloggedin"}
@@ -301,6 +337,11 @@ function App() {
                       <Route path="edit/:formId" element={<EditForm __admin={admin}  token={token}/>} />
                       <Route path="delete/:formId" element={<DeleteForm __admin={admin}  token={token}/>} />
                       <Route path="responses" element={<Responses token={token}/>} />
+                    </Route>
+                    <Route path="images">
+                      <Route path="" element={<ViewEventImages __admin={admin} token={token}/>} />
+                      <Route path="create" element={<CreateEventImage __admin={admin} token={token}/>} />
+                      <Route path="delete/:imageId" element={<DeleteEventImage __admin={admin} token={token}/>} />
                     </Route>
                   </Route>
                   <Route path="s/:eventSlug">

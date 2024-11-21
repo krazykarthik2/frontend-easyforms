@@ -16,7 +16,17 @@
         @apply text-white no-underline
     }
     .unbtn{
-        @apply bg-transparent border-none cursor-pointer text-white m-0 p-0
+        font-size: inherit;
+        @apply bg-transparent border-none cursor-pointer text-white m-0 p-0 outline-none
+    }    
+    .leading-0{
+        line-height: 0;
+    }
+    input[type="text"], input[type="password"],input[type="email"], input[type="number"]{
+        font-size: inherit;
+    }
+    .blur-sm{
+        @apply select-none
     }
 }
 @layer utilities{

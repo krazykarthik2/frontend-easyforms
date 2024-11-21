@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toastPromise } from '../../../utils/toastify';
 import { getFormById, deleteForm } from '../../../utils/api_calls/forms';
 function DeleteForm({token}) {
@@ -31,17 +31,23 @@ function DeleteForm({token}) {
     })
   },[params.formId]);
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div className='stack'>
-          <div className="form-details">
+    <div className='w-full h-full stack d-center'>
+      <form onSubmit={handleSubmit} className='stack d-center'>
+        <div className='stack d-center'>
+          <div className="form-details stack d-center">
             <p>form#{form?.formId}</p>
             <h1>{form?.name}</h1>
             <p>{form?.attributes?.length} attributes</p>
           </div>
-          <h1>Are you sure you want to delete this form?</h1>
-          <button type='submit'>Delete</button>
-          <button type='button' onClick={()=>navigate(`/events/id/${params.id}/forms/s/${params.formId}`)}>Cancel</button>
+          <div className="gap-10 ques stack d-center">
+
+          <h1>Are you sure<br/> you want to delete this form?</h1>
+              <button type='submit' 
+              className="gap-3 px-6 py-3 rounded-md unbtn bg-slightly-red d-center"
+              >Delete</button>
+              <Link to={`/events/id/${params.id}/forms/s/${form?.formId}`}
+              className="gap-3 px-6 py-3 bg-gray-500 rounded-md unlink d-center">Cancel</Link>
+          </div>
         </div>
       </form>
     </div>

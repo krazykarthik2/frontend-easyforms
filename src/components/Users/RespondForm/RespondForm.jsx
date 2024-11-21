@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   getFormById,
   getFormSlugByEventId,
   getFormSlugByEventSlug,
 } from "../../../utils/api_calls/forms";
+import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { respondToForm } from "../../../utils/api_calls/respond";
 import { DateTimeFormat } from "../../../utils/formats/formats";
 import { toastPromise } from "../../../utils/toastify";
@@ -148,6 +149,33 @@ function FormView({ form, response, setResponse }) {
     </div>
   );
 }
+function Details({ form }) {
+  return (
+    <div id="details">
+      <h1>Details</h1>
+      <h2>Form ID:#{form?.formId}</h2>
+      <h2>Form Name: {form?.name}</h2>
+      <h2>Created At: {DateTimeFormat(form?.createdAt)}</h2>
+      <h2>Updated At: {DateTimeFormat(form?.updatedAt)}</h2>
+      <Link to={`/admins/id/${form?.createdBy._id}`} className="unlink ">
+        <h2>
+          Created By: <FaArrowUpRightFromSquare />{" "}
+        </h2>
+        <h3>{<__Admin admin={form?.createdBy} />}</h3>
+      </Link>
+    </div>
+  );
+}
+function TheForm({ form,handleSubmit, response, setResponse }) {
+  return (
+    <form onSubmit={handleSubmit}>
+      {form && (
+        <FormView form={form} response={response} setResponse={setResponse} />
+      )}
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
 function RespondForm({ token }) {
   const params = useParams();
   const [form, setForm] = useState(null);
@@ -155,13 +183,13 @@ function RespondForm({ token }) {
   window.response = response;
   window.form = form;
   useEffect(() => {
-    if(!form) return;
+    if (!form) return;
     checkResponse(form._id, token).then((data) => {
       if (data.result) {
         toast.error(data.message);
         navigate("/");
         return;
-      }else{
+      } else {
         setResponse(Array(form?.attributes?.length).fill(""));
       }
     });
@@ -216,7 +244,7 @@ function RespondForm({ token }) {
       };
     });
     window.calcResponse = calcResponse;
-    
+
     toastPromise(() => respondToForm(form._id, calcResponse, token), {
       pending: "Responding to form...",
       success: "Form Responded Successfully",
@@ -234,19 +262,8 @@ function RespondForm({ token }) {
   return (
     <div>
       <h1>Form</h1>
-      <form onSubmit={handleSubmit}>
-        {form && (
-          <FormView form={form} response={response} setResponse={setResponse} />
-        )}
-        <button type="submit">Submit</button>
-      </form>
-      <div id="details">
-        <h2>Form ID: {form?.formId}</h2>
-        <h2>Form Name: {form?.name}</h2>
-        <h2>Created At: {DateTimeFormat(form?.createdAt)}</h2>
-        <h2>Updated At: {DateTimeFormat(form?.updatedAt)}</h2>
-        <h2>Created By: {<__Admin admin={form?.createdBy} />}</h2>
-      </div>
+      {<TheForm handleSubmit={handleSubmit} form={form} response={response} setResponse={setResponse}/>}
+      {form && <Details form={form} />}
     </div>
   );
 }

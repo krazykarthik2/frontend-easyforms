@@ -46,6 +46,7 @@ export const getAdminByEmail = async (email,token) => {
 };
 
 export const getAdminById = async (id,token) => {
+  console.log(id,token);
   const response = await api.get(`/admins/${id}`,{headers:{Authorization: `Bearer ${token}`}}  );
   return response.data;
 };

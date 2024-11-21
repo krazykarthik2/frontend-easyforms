@@ -9,7 +9,7 @@ const Password = ({
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   return (
-    <div className="relative">
+    <div className="relative leading-0">
       <input
         type={isVisible ? "text" : "password"}
         placeholder={placeholder}
@@ -21,7 +21,7 @@ const Password = ({
       <button
         type="button"
         onClick={() => setIsVisible(!isVisible)}
-        className="absolute -translate-y-1/2 right-2 top-1/2"
+        className="absolute text-black -translate-y-1/2 d-center unbtn right-2 top-1/2"
       >
         {isVisible ? <FaEyeSlash /> : <FaEye />}
       </button>
