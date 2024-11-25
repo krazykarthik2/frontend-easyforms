@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   getFormById,
   getFormSlugByEventId,
@@ -8,10 +8,11 @@ import {
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { respondToForm } from "../../../utils/api_calls/respond";
 import { DateTimeFormat } from "../../../utils/formats/formats";
-import { toastPromise } from "../../../utils/toastify";
+import { toastErrTemplate, toastErrTemplateErrors, toastPromise, toastThis } from "../../../utils/toastify";
 import { checkResponse } from "../../../utils/api_calls/respond";
 import { arrWithIndex } from "../../../utils/react";
 import { toast } from "react-toastify";
+import Loading from "../../utils/Loading"
 import {
   DateInput,
   EmailInput,
@@ -19,11 +20,13 @@ import {
   ParagraphInput,
   TextInput,
   TimeInput,
+  SingleCheckboxInput
 } from "./Widgets/Inputs";
 import {
   CheckboxInput,
   DropdownInput,
   RadioInput,
+  
 } from "./Widgets/MultiChoice";
 import { RatingInput, ScaleInput } from "./Widgets/Scale";
 function __Admin({ admin }) {
@@ -115,6 +118,9 @@ function FormView({ form, response, setResponse }) {
                   }
                 />
               )}
+              {"singleCheckboxInput" in attribute.question &&(
+                <SingleCheckboxInput q={attribute} answer={response[index]} onChange={e=>setResponse(arrWithIndex(response,index,e))}/>
+              )}
               {"checkboxInput" in attribute.question && (
                 <CheckboxInput
                   q={attribute}
@@ -176,13 +182,15 @@ function TheForm({ form,handleSubmit, response, setResponse }) {
     </form>
   );
 }
-function RespondForm({ token }) {
+function RespondForm({ __admin,__user,token }) {
   const params = useParams();
   const [form, setForm] = useState(null);
   const [response, setResponse] = useState([]);
+  const location = useLocation();
   window.response = response;
   window.form = form;
   useEffect(() => {
+    if(!__user)return;
     if (!form) return;
     checkResponse(form._id, token).then((data) => {
       if (data.result) {
@@ -195,6 +203,16 @@ function RespondForm({ token }) {
     });
   }, [form]);
   useEffect(() => {
+    if(__admin){
+      toastThis("Admins can't respond to form","error")
+      navigate('/')
+      return;
+    }
+    if(!__user){
+      const path = location.pathname;
+      navigate(`/auth/user/login?continue=/${path}`)
+      return;
+    }
     if (params.formId) {
       // if we have formId no need to check for eventSlug or id
       toastPromise(() => getFormById(params.formId, token), {
@@ -235,7 +253,7 @@ function RespondForm({ token }) {
           }
         );
     }
-  }, [params.formId, params.slug, params.id, params.eventSlug]);
+  }, [params.formId, params.slug, params.id, params.eventSlug,__admin,__user]);
   const navigate = useNavigate();
   function handleRespond() {
     const calcResponse = response.map((answer, index) => {
@@ -252,6 +270,7 @@ function RespondForm({ token }) {
       then: (data) => {
         navigate("/");
       },
+      catch_:toastErrTemplateErrors
     });
   }
   function handleSubmit(e) {
@@ -260,10 +279,15 @@ function RespondForm({ token }) {
     handleRespond();
   }
   return (
-    <div>
+    <div className="d-center stack">
       <h1>Form</h1>
-      {<TheForm handleSubmit={handleSubmit} form={form} response={response} setResponse={setResponse}/>}
-      {form && <Details form={form} />}
+      {form!=null?
+      <TheForm handleSubmit={handleSubmit} form={form} response={response} setResponse={setResponse}/>:
+      <>
+      <Loading text="Loading form..."/>
+      <Details form={form} />
+      </>
+}
     </div>
   );
 }

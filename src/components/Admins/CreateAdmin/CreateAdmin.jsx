@@ -29,8 +29,8 @@ function CreateAdmin({ __admin, token }) {
   };
   return (
     <div className="w-full h-full d-center stack">
+      <form onSubmit={handleSubmit} className="w-full h-full d-center stack gap-5">
       <h1>Create Admin</h1>
-      <form onSubmit={handleSubmit} className="w-full h-full d-center stack">
         <div className="gap-2 text-xl stack d-center">
           <input
             type="text"
@@ -60,14 +60,15 @@ function CreateAdmin({ __admin, token }) {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          <button
+          
+        </div>
+        <button
             type="submit"
-            className="gap-2 p-2 text-white rounded-md bg-slightly-green d-center unbtn"
+            className="gap-2 p-2 text-white text-xl rounded-md bg-slightly-green d-center unbtn"
           >
             <span>Create Admin</span>
             <FaArrowRight />
           </button>
-        </div>
       </form>
     </div>
   );

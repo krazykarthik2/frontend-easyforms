@@ -6,6 +6,7 @@ function AdminLogout({ onLogout,token  }) {
   const navigate = useNavigate();
   useEffect(() => {
     adminLogout(token).then((data) => {
+      console.log('/logout',data)
       onLogout();
       navigate("/");
     });

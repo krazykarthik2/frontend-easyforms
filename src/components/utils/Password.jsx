@@ -21,7 +21,7 @@ const Password = ({
       <button
         type="button"
         onClick={() => setIsVisible(!isVisible)}
-        className="absolute text-black -translate-y-1/2 d-center unbtn right-2 top-1/2"
+        className="absolute text-black -translate-y-1/2 d-center unbtn right-2 top-1/2 p-3 focus:bg-black focus:text-white rounded-full"
       >
         {isVisible ? <FaEyeSlash /> : <FaEye />}
       </button>

@@ -14,7 +14,7 @@ function SearchBar({ __admin, token }) {
     navigate(`/admins/search/${JSON.stringify(query)}`);
   };
   return (
-    <div className="w-full h-full d-center">
+    <div className="w-full h-full d-center select-none">
       <form onSubmit={handleSubmit} className="gap-5 text-xl d-center stack">
         <h1>Search Admins</h1>
         <div className="justify-between w-full gap-3 d-center">

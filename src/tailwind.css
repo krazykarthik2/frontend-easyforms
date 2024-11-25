@@ -26,7 +26,13 @@
         font-size: inherit;
     }
     .blur-sm{
-        @apply select-none
+        @apply select-none;
+    }
+    .table-border{
+        @apply  border border-collapse border-white [&>*>*>td]:border-white [&>*>*>td]:border [&>*>*>td]:border-solid [&>*>*>th]:border-white [&>*>*>th]:border  [&>*>*>th]:border-solid;
+    }
+    .z-index-999{
+        z-index: 99999999999999999999999999999999;
     }
 }
 @layer utilities{

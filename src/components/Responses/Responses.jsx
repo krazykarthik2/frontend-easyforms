@@ -2,36 +2,51 @@ import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getFormById } from "../../utils/api_calls/forms";
 import { getResponses } from "../../utils/api_calls/responses";
-import { idFormat } from "../../utils/formats/formats";
+import { DateFormat, DateTimeFormat, idFormat, TimeFormat } from "../../utils/formats/formats";
 import Loading from "../utils/Loading";
 function ShowRadioDropdown({ question, answer }) {
-  if (!answer) return null;
+  if (answer ==null ) return null;
   return (
     <div>
-      {" "}
-      {question?.radioInput?.[answer?.radioInput] ||
-        question?.dropdownInput?.[answer?.dropdownInput]}
+      {question?.radioInput?.[answer] ||
+        question?.dropdownInput?.[answer]}
     </div>
   );
 }
-function ShowCheckbox({ attribute, answer }) {
-  if (!answer) return null;
+function ShowCheckbox({ question, answer }) {
+  if (answer==null) return null;
   return (
     <div>
-      {answer?.map((answer) => attribute.checkboxInput[answer.checkboxInput])}
+      {answer?.map((answer) => question?.checkboxInput?.[answer]).join(",")}
     </div>
   );
 }
-function ShowDate({ attribute, answer }) {
-  if (!answer) return null;
-  return <div>{JSON.stringify(answer)}</div>;
+function ShowSingleCheckBox({answer}){
+  if(answer==null)return null;
+  return (
+    <div>
+      {answer?"Yes":"No"}
+    </div>
+  )
 }
-function ShowParagraph({ attribute, answer }) {
-  if (!answer) return null;
-  return <div>{JSON.stringify(answer)}</div>;
+function ShowDate({  answer }) {
+  if (answer==null) return null;
+  return <div>{DateFormat(answer)}</div>;
+}
+function ShowTime({answer}){
+  if(answer==null) return null;
+  return <div>{answer}</div>
+}
+function ShowDateTime({answer}){
+  if(answer==null)return null;
+  return <div>{DateTimeFormat(answer)}</div>
+}
+function ShowParagraph({  answer }) {
+  if (answer==null) return null;
+  return <div>{answer}</div>;
 }
 function ShowResponse({ attribute, answer }) {
-  if (!answer) return null;
+  if (answer==null) return null;
   return (
     attribute &&
     attribute.question && (
@@ -49,23 +64,31 @@ function ShowResponse({ attribute, answer }) {
           />
         )}
         {"checkboxInput" in attribute.question && (
-          <ShowCheckbox attribute={attribute} answer={answer.checkboxInput} />
+          <ShowCheckbox question={attribute.question} answer={answer.checkboxInput} />
         )}
+        {
+          "singleCheckboxInput" in attribute.question &&
+(
+  <ShowSingleCheckBox answer={answer.singleCheckboxInput}/>
+          )
+        }
         {"dateInput" in attribute.question && (
-          <ShowDate attribute={attribute} answer={answer.dateInput} />
+          <ShowDate answer={answer.dateInput} />
         )}
         {"timeInput" in attribute.question && (
-          <ShowDate attribute={attribute} answer={answer.timeInput} />
+          <ShowTime answer={answer.timeInput} />
         )}
         {"datetimeInput" in attribute.question && (
-          <ShowDate attribute={attribute} answer={answer.datetimeInput} />
+          <ShowDateTime answer={answer.datetimeInput} />
         )}
         {"paragraphInput" in attribute.question && (
-          <ShowParagraph attribute={attribute} answer={answer.paragraphInput} />
+          <ShowParagraph answer={answer.paragraphInput} />
         )}
         {"numberInput" in attribute.question && <div>{answer.numberInput}</div>}
         {"textInput" in attribute.question && <div>{answer.textInput}</div>}
         {"emailInput" in attribute.question && <div>{answer.emailInput}</div>}
+        {"rating" in attribute.question &&  <div>{answer.rating}</div>}
+        {"scale" in attribute.question &&  <div>{answer.scale}</div>}
       </>
     )
   );
@@ -92,7 +115,7 @@ function Responses({ token }) {
     for (var i = 0; i < rows.length; i++) {
         var row = [], cols = rows[i].querySelectorAll("td, th");
         for (var j = 0; j < cols.length; j++) {
-            row.push(cols[j].innerText);
+            row.push('"'+cols[j].innerText.replaceAll('"','""')+'"');
         }
         csv.push(row.join(","));        
     }
@@ -104,6 +127,8 @@ function Responses({ token }) {
     link.download = "responses.csv";
     link.click();
   }
+  window.responses = responses
+  window.attributes= form?.attributes
   useEffect(() => {
     getFormById(params.formId, token).then(setForm);
     getResponses(params.formId, token).then(setResponses);
@@ -122,12 +147,24 @@ function Responses({ token }) {
           ))}
         </div>
       </h1>
-      <table ref={tableRef} id="responses-table" className="w-full border border-collapse border-white  [&>*>*>td]:border-white [&>*>*>td]:border [&>*>*>td]:border-solid [&>*>*>th]:border-white [&>*>*>th]:border  [&>*>*>th]:border-solid">
+      <table ref={tableRef} id="responses-table" className="w-full table-border">
         <thead>
           <tr>
             <th>#</th>
             {form?.attributes.map((attribute) => (
-              <th key={attribute._id}>{attribute.label}</th>
+              <th key={attribute._id}>
+                
+                {attribute.label}
+                {'rating' in attribute.question&&<>
+                {`(${attribute.question.rating.min}-${attribute.question.rating.max})`}
+                </>
+}
+                {'scale' in attribute.question&&<>
+                {`(${attribute.question.scale.min}-${attribute.question.scale.max})`}
+                </>
+}
+              
+              </th>
             ))}
             <th>Submitted At</th>
             <th>Submitted By Name</th>
@@ -146,7 +183,7 @@ function Responses({ token }) {
                   />
                 </td>
               ))}
-              <td>{response.submittedAt}</td>
+              <td>{DateTimeFormat( response.submittedAt)}</td>
               <td>{response.submittedBy?.name}</td>
               <td>{response.submittedBy?.email}</td>
             </tr>

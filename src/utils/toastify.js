@@ -23,3 +23,10 @@ export const toastPromise = (
 export const toastThis = (message, type) => {
   toast[type](message);
 };
+
+export const toastErrTemplate = (err)=>{if(err?.response?.data?.message)toastThis(err?.response?.data?.message,"error")}
+export const toastErrTemplateErrors = (err)=>{if(err?.response?.data?.errors)
+  err?.response?.data?.errors.forEach(element => {
+    toastThis(element,"error")
+  });
+}

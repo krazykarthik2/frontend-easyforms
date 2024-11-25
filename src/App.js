@@ -115,6 +115,7 @@ function App() {
 
   const [token, setToken] = useState(null);
   const [cookies, setCookie, removeCookie] = useCookies(["jwt"]);
+  window.removeCookie = removeCookie;
   const [secsLeft, setSecsLeft] = useState(null);
   const [stopSecsLeft, setStopSecsLeft] = useState(false);
 
@@ -252,7 +253,8 @@ function App() {
     onEsc:()=>{
       setMenu(false);
       toast.dismiss();
-    }
+    },
+    
   }
   return (
     <div className="w-full h-full gap-0 overflow-hidden stack d-center">
@@ -264,6 +266,7 @@ function App() {
             <Menu
               isActive={menu}
               state={admin ? "admins" : user ? "users" : "notloggedin"}
+              setIsActive={setMenu}
             />
             <main className="flex w-full overflow-y-auto stack">
               <Routes>
@@ -348,8 +351,8 @@ function App() {
                     <Route path="" element={<Event  __admin={admin} />} />
                     <Route path="forms">
                       <Route path="respond">
-                        <Route path="s/:slug" element={<RespondForm token={token}/>} />
-                        <Route path="id/:formId" element={<RespondForm token={token}/>} />
+                        <Route path="s/:slug" element={<RespondForm __admin={admin} __user={user} token={token}/>} />
+                        <Route path="id/:formId" element={<RespondForm __admin={admin} __user={user} token={token}/>} />
                       </Route>
                       <Route path="s/:slug" element={<Form  __admin={admin} token={token}/>} />
                     </Route>

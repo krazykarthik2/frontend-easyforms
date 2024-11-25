@@ -24,7 +24,7 @@ function Main({ event }) {
   return (
     <div className="h-full stack d-center justify-evenly">
       <h1>Forms</h1>
-      <table>
+      <table className="table-border">
         <thead>
           <tr>
             <th>Form ID</th>

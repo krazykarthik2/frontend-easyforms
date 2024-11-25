@@ -38,7 +38,7 @@ function ShowEvents({ token }) {
       {events.length > 0 ? (
         <div className="items-center justify-between w-full h-full stack">
           <h1>Events {events.length}</h1>
-          <table className="w-full border border-collapse border-white  [&>*>*>td]:border-white [&>*>*>td]:border [&>*>*>td]:border-solid [&>*>*>th]:border-white [&>*>*>th]:border  [&>*>*>th]:border-solid">
+          <table className="w-full table-border">
             <thead>
               <tr>
                 <th>ID</th>

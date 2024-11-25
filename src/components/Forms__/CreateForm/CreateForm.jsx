@@ -18,6 +18,7 @@ function CreateForm({ token }) {
   const navigate = useNavigate();
   window.attributes = attributes;
   function handleCreateForm() {
+    console.log(attributes);
     toastPromise(() => createForm(params.id, formId, name, attributes, token), {
       pending: "Creating form...",
       success: "Form created",
@@ -29,6 +30,7 @@ function CreateForm({ token }) {
   }
   function handleSubmit(e) {
     e.preventDefault();
+    handleCreateForm();
   }
   return (
     <div className="w-full h-full stack d-center">
@@ -96,7 +98,7 @@ function CreateForm({ token }) {
           </div>
         </div>
 
-        <button type="submit" onClick={handleCreateForm}>
+        <button type="submit">
           Create
         </button>
       </form>

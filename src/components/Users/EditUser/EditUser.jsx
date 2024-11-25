@@ -37,9 +37,9 @@ function EditUser({__user,token}) {
     loadUser();
   }, [params.id]);
   return (
-    <div>
+    <div className="d-center stack w-full h-full">
       <h1>Edit User</h1>
-      <form onSubmit={handleSubmit} className="gap-4 p-4 stack">
+      <form onSubmit={handleSubmit} className="gap-4 p-4 stack d-center">
         <input type="text" name="name" value={name} placeholder="Name" autoFocus autoComplete="name" onChange={(e) => setName(e.target.value)}/>
         <input type="email" name="email" value={email} placeholder="Email" autoComplete="email" onChange={(e) => setEmail(e.target.value)}/>
         <button type="submit">Edit</button>

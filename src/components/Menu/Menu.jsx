@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import sitemap from "../../json/sitemap.json";
 import { FaArrowRight, FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import "./Menu.css";
-function AccordionItemPlain({ __key, value, isLast, axkey, blur }) {
+const isMobile = navigator.userAgent.match(/iPhone/i)   || navigator.userAgent.match(/iPad/i)  || navigator.userAgent.match(/Android/i)
+function AccordionItemPlain({ __key, value, isLast, axkey, blur ,setIsActive}) {
   return (
     <Link
       to={value}
       accessKey={blur ? "" : axkey}
       tabIndex={blur ? -1 : 0}
+      onClick={()=>{if(isMobile)setIsActive(false)}}
       className={
         (blur ? "blur-sm pointer-events-none" : "") +  
         " px-5 py-2 text-xl font-bold unlink d-center gap-3 justify-between w-full" +
@@ -16,7 +18,7 @@ function AccordionItemPlain({ __key, value, isLast, axkey, blur }) {
       }
     >
       <span>
-        {blur ? "" : <span className="w-5 h-10 text-white rounded-sm d-center bg-slate-600">{axkey}</span>}
+        {blur ? "" : <span className="w-5 hidden md:flex h-10 text-white rounded-sm d-center bg-slate-600">{axkey}</span>}
       </span>
       <span>{__key}</span>
       <span className="w-10 d-center">
@@ -36,6 +38,7 @@ function AccordionMenuItem({
   isLast,
   axkey,
   isSomeActive,
+  setIsActive
 }) {
   const [activeKey, setActiveKey] = useState("");
   useEffect(() => {
@@ -50,6 +53,7 @@ function AccordionMenuItem({
       isLast={isLast}
       axkey={axkey}
       blur={isSomeActive}
+      setIsActive={setIsActive}
     />
   ) : (
     <div
@@ -67,11 +71,11 @@ function AccordionMenuItem({
       >
         <span>
           {isSomeActive ? (
-            isActive ? ( <span className="w-5 h-10 text-white rounded-sm d-center bg-slate-600">{axkey}</span>
+            isActive ? ( <span className="w-5 hidden md:flex h-10 text-white rounded-sm d-center bg-slate-600">{axkey}</span>
             ) : (
               ""
             )
-          ) : ( <span className="w-5 h-10 text-white rounded-sm d-center bg-slate-600">{axkey}</span>
+          ) : ( <span className="w-5 hidden md:flex h-10 text-white rounded-sm d-center bg-slate-600">{axkey}</span>
           )}
         </span>
         <span>{__key}</span>
@@ -91,6 +95,7 @@ function AccordionMenuItem({
               isSomeActive={activeKey !== ""}
               isLast={__index === Object.keys(value).length - 1}
               axkey={activeKey===subkey ? axkey+1 : axkey + 1 + __index} //now it's current level+1 , i.e.,axkey =currentlevel, axkey+1
+              setIsActive={setIsActive}
             />
           ))}
         </div>
@@ -99,7 +104,7 @@ function AccordionMenuItem({
   );
 }
 
-function Menu({ isActive, state }) {
+function Menu({ isActive, state,setIsActive }) {
   const [activeKey, setActiveKey] = useState("");
   const json = sitemap[state];
   useEffect(() => {
@@ -107,8 +112,8 @@ function Menu({ isActive, state }) {
   },[isActive]);
   return (
     isActive && (
-      <div className="h-full overflow-hidden overflow-y-auto border-0 border-r-2 border-gray-300 border-solid menu">
-        <div className="h-full gap-2 menu-links stack justify-evenly">
+      <div className="z-index-999  select-none h-full w-full md:w-fit md:relative absolute bg-black overflow-hidden overflow-y-auto border-0 border-r-2 border-gray-300 border-solid menu">
+        <div className="h-full gap-2 w-full md:w-fit menu-links stack justify-evenly">
           {Object.keys(json).map(
             (key, index) =>
               (typeof json[key] === "string" && (
@@ -119,6 +124,7 @@ function Menu({ isActive, state }) {
                   value={json[key]}
                   axkey={activeKey !== "" ? 0 : index}//level at which is at It's currently 0
                   isLast={index === Object.keys(json).length - 1}
+                  setIsActive={setIsActive}
                 />
               )) ||
               (typeof json[key] === "object" && (
@@ -131,7 +137,7 @@ function Menu({ isActive, state }) {
                   isSomeActive={isActive && activeKey !== ""}
                   isLast={index === Object.keys(json).length - 1}
                   axkey={activeKey ===key ? 0 : index}//level at which is at It's currently 0
-                  
+                  setIsActive={setIsActive}
                 />
               ))
           )}

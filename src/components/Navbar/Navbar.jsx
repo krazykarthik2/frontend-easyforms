@@ -80,6 +80,7 @@ function Navbar({ onClick, isActive, secsLeft ,onEsc}) {
       if (e.key === "Escape") { 
         onEsc();
       }
+      return false;
     }
     window.addEventListener("keydown", onKeydown);
     return () => {
@@ -88,7 +89,7 @@ function Navbar({ onClick, isActive, secsLeft ,onEsc}) {
   })
   
   return (
-    <nav className="flex flex-wrap justify-between w-full p-5 text-2xl bg-gray-800 navbar">
+    <nav className="select-none flex flex-wrap justify-between w-full p-5 text-2xl bg-gray-800 navbar">
       <div className="flex-wrap navbar-links d-center">
         <button onClick={onClick} className="w-16 unbtn d-center" accessKey="M">
           {!isActive ? <FaBars size={37} /> : <FaTimes size={37} />}
@@ -100,7 +101,7 @@ function Navbar({ onClick, isActive, secsLeft ,onEsc}) {
           <FaClock />
           <span className="d-center">{HHMMSS(time)}</span>
         </div>
-        {secsLeft && (
+        {secsLeft>0 && (
           <div className="gap-1 px-3 py-2 text-sm rounded-full time-remaining d-center bg-slate-600">
             <FaStopwatch />
             <span className="d-center">{formatStopWatch(stopwatch(secsLeft))}</span>
@@ -122,7 +123,7 @@ function Navbar({ onClick, isActive, secsLeft ,onEsc}) {
                 ][Math.floor(battery.level * 4)]
               }
             </div>
-            {battery.level * 100}%{battery.charging && <FaBoltLightning />}
+            {Math.floor(battery.level * 100)}%{battery.charging && <FaBoltLightning />}
           </div>
         )}
       </div>

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import { getAdmins, getUsers } from "../../../utils/api_calls/user";
 import { toast } from "react-toastify";
 import { idFormat } from "../../../utils/formats/formats";
+import {FaPlus} from "react-icons/fa6"
 function NotFound() {
   return <div>No Users Found for query</div>;
 }
@@ -29,11 +30,11 @@ function Main({ __admin, token }) {
     });
   }, [params.query, token]);
   return (
-    <div className="w-full h-full d-center">
+    <div className="w-full h-full d-center ">
       {users.length === 0 && <NotFound />}
       <div className="w-full h-full stack">
         <h1>{users.length} Records Found</h1>
-        <table className="w-full border border-collapse border-white [&>*>td]:border-white [&>*>td]:border [&>*>td]:border-solid [&>*>*>th]:border-white [&>*>*>th]:border  [&>*>*>th]:border-solid">
+        <table className="w-full table-border">
           <thead>
             <th>ID</th>
             <th>Name</th>
@@ -49,7 +50,7 @@ function Main({ __admin, token }) {
                   ))}
                 </div>
               </td>
-              <td className="text-center name">{user.name}</td>
+              <td className="text-center name">{user.name}{user?._id==__admin?._id&&" (Yourself)"}</td>
               <td className="email">{user.email}</td>
               <td className="text-center view">
                 <a href={`/admins/id/${user._id}`}>View</a>
@@ -64,12 +65,22 @@ function Main({ __admin, token }) {
 function UserSearch({ __admin, token }) {
   const params = useParams();
   return (
+    <div className="w-full h-full stack d-center justify-between">
+      <div className="up"></div>
     <div className="w-full h-full d-center">
       {params.query ? (
         <Main __admin={__admin} token={token} />
       ) : (
         <SearchBar __admin={__admin} token={token} />
       )}
+    </div>
+    <Link to="/admins/create" className=" unlink bottom stack d-center">
+    <div className="p-5 rounded-lg bg-slightly-green d-center">
+              <FaPlus size={37} />
+            </div>
+            <span>Create Admins</span>
+
+    </Link>
     </div>
   );
 }

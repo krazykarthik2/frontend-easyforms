@@ -32,7 +32,7 @@ function Main({ __admin, token }) {
       {users.length === 0 && <NotFound />}
       <div className="w-full h-full stack">
         <h1>{users.length} Records Found</h1>
-        <table className="w-full gap-3 border-collapse border-white ">
+        <table className="w-full gap-3 table-border ">
         <thead>
           <th>ID</th>
           <th>Name</th>

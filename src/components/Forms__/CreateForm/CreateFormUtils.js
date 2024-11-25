@@ -152,7 +152,12 @@ function Attribute({ onDelete, value, onChange,index }) {
     onChange((x) => ({ ...x, label: e }));
   }
   function setQuestionType(e) {
-    onChange((x) => ({ ...x, question: { [e]: details } }));
+    let __details = details;
+    if(e=="singleCheckboxInput")__details=false;
+    else if(e=="dateInput")__details= new Date();
+    else if(e in ["timeInput","textInput","paragraphInput","emailInput"])__details = "";
+    else if(e in ["numberInput"])__details=0;
+    onChange((x) => ({ ...x, question: { [e]: __details } }));
   }
   function setDetails(e) {
     onChange((x) => ({ ...x, question: { [questionType]: e } }));
@@ -192,7 +197,8 @@ function Attribute({ onDelete, value, onChange,index }) {
                 <option value="paragraphInput">Paragraph</option>
                 <option value="radioInput">Radio</option>
                 <option value="dropdownInput">Dropdown</option>
-                <option value="checkboxInput">Checkbox</option>
+                <option value="checkboxInput">Checkbox-Multiple</option>
+                <option value="singleCheckboxInput">Checkbox-Single</option>
                 <option value="rating">Rating</option>
                 <option value="scale">Scale</option>
               </select>
