@@ -8,4 +8,3 @@ export const checkResponse = async (formId,token) => {
   const response__ = await api.get(`/check/${formId}`,{headers:{Authorization: `Bearer ${token}`}});
   return response__.data;
 };  
-export default respondToForm;

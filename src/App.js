@@ -363,7 +363,7 @@ function App() {
                 </Route>
                 <Route path="help">
                   <Route path="" element={<Help />} />
-                  <Route path="backend" element={<BackendHelp />} />
+                  <Route path="backend" element={<BackendHelp __admin={admin} __user={user} token={token} />} />
                   <Route path="frontend" element={<FrontendHelp />} />
                 </Route>
                 <Route path="sitemap" element={<Sitemap />} />

@@ -13,7 +13,7 @@ function AccordionItemPlain({ __key, value, isLast, axkey, blur ,setIsActive}) {
       onClick={()=>{if(isMobile)setIsActive(false)}}
       className={
         (blur ? "blur-sm pointer-events-none" : "") +  
-        " px-5 py-2 text-xl font-bold unlink d-center gap-3 justify-between w-full" +
+        " px-5 py-2 text-xl font-bold unlink d-center gap-3 justify-between w-full " +
         (isLast ? "" : " border-0 border-b-2 border-gray-300 border-solid ")
       }
     >
