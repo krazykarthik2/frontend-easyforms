@@ -28,6 +28,13 @@ export const HHMMSS= (date,seperator=':')=>{
     hourCycle:"h23"
   });
 }
+export const HHMM= (date,seperator=':')=>{
+  return new Date(date).toLocaleString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle:"h23"
+  });
+}
 export const stopwatch = (secs) => {
   const d = Math.floor(secs / (3600 * 24));
   const h = Math.floor(secs / 3600) % 24;

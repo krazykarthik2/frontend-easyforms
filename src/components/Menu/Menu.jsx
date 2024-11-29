@@ -59,7 +59,7 @@ function AccordionMenuItem({
     <div
       className={
         (isSomeActive&&!isActive ? "blur-sm pointer-events-none" : "") +  
-        " px-5 py-2 accordion-menu-item " +
+        " px-5 py-2 accordion-menu-item d-center h-full stack " +
         (isLast ? "" : "border-0 border-b-2 border-gray-300 border-solid ")
       }
     >

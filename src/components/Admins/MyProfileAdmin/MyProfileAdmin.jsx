@@ -18,9 +18,9 @@ function MyProfileAdmin({ __admin, token }) {
       });
   }, [__admin]);
   return (
-    <div className="justify-between w-full h-full d-center stack">
+    <div className="justify-between w-screen overflow-x-auto h-full d-center stack px-10 md:p-0">
       <div>admin#{admin?._id}</div>
-      <table className="w-full gap-3d-center ">
+      <table className="w-full gap-3 d-center ">
         <tbody>
           <tr>
             <td>Name</td>

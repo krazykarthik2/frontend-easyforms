@@ -15,7 +15,7 @@ import {
 } from "react-icons/fa6";
 
 import { FaTimes } from "react-icons/fa";
-import { HHMMSS ,stopwatch} from "../../utils/formats/formats";
+import { HHMM ,stopwatch} from "../../utils/formats/formats";
 function formatStopWatch({d,hh,mm,ss}){
   let str = ''
   if(d>0){
@@ -66,8 +66,10 @@ function Navbar({ onClick, isActive, secsLeft ,onEsc}) {
   });
   useEffect(() => {
     const update = () => {
+      console.log("online changing...")
       setOnline(navigator.onLine);
     };
+    update();
     window.addEventListener("online", update);
     window.addEventListener("offline", update);
     return () => {
@@ -89,17 +91,17 @@ function Navbar({ onClick, isActive, secsLeft ,onEsc}) {
   })
   
   return (
-    <nav className="select-none flex flex-wrap justify-between w-full p-5 text-2xl bg-gray-800 navbar">
-      <div className="flex-wrap navbar-links d-center">
-        <button onClick={onClick} className="w-16 unbtn d-center" accessKey="M">
+    <nav className="select-none flex flex-wrap justify-between text-2xl bg-gray-800 navbar w-full py-5">
+      <div className="md:ps-5 ps-3 flex-wrap navbar-links d-center ">
+        <button onClick={onClick} className=" unbtn d-center" accessKey="M">
           {!isActive ? <FaBars size={37} /> : <FaTimes size={37} />}
         </button>
-        <span className="underline">M</span>
+        <span className="underline hidden md:flex">M</span>
       </div>
-      <div className="gap-3 status-bar d-center me-5">
+      <div className="md:pe-5 pe-3 gap-1 md:gap-5 status-bar d-center ">
         <div className="gap-1 px-3 py-2 text-sm rounded-full clock-time d-center bg-slate-600">
           <FaClock />
-          <span className="d-center">{HHMMSS(time)}</span>
+          <span className="d-center">{HHMM(time)}</span>
         </div>
         {secsLeft>0 && (
           <div className="gap-1 px-3 py-2 text-sm rounded-full time-remaining d-center bg-slate-600">

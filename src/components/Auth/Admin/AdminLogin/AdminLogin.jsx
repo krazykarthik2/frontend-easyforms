@@ -27,7 +27,7 @@ function AdminLogin({onLogin}) {
       <form className="w-full h-full d-center stack" onSubmit={handleSubmit}>
         <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <Password value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button type="submit">Login</button>
+        <button className='gap-2 px-5 py-3 rounded-lg unlink unbtn d-center bg-slightly-green' type="submit">Login</button>
       </form>
     </div>
   );

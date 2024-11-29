@@ -17,9 +17,9 @@ function AdminProfile({__admin,token}) {
     })
   }, [__admin,params.id,token]);
   return (
-    <div className='justify-between w-full h-full py-5 d-center stack'>
+    <div className='justify-between w-screen overflow-x-auto h-full py-5 d-center stack'>
       <div>admin#{admin?._id}</div>
-      <table className="w-full gap-3 d-center ">
+      <table className="w-full gap-3 d-center">
         <tbody>
           <tr>
             <td>Name</td>
