@@ -45,13 +45,13 @@ function DeleteUser({ __user, token }) {
   };
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="w-full h-full d-center stack gap-5 select-none">
       <h1>Delete User</h1>
       <div>#{params.id}</div>
       <h1>{user?.name}</h1>
         <p>{user?.email}</p>
-        <button type="submit" className="flex gap-2">
-          <FaTrashAlt size={39} />
+        <button type="submit" className="gap-3 p-3 rounded-lg bg-slightly-red unbtn d-center text-2xl">
+          <FaTrashAlt size={37} />
           <span>Delete</span>
         </button>
       </form>

@@ -245,10 +245,7 @@ function App() {
     }
   }
 
-  function handleNavbarMenu(){
   
-    setMenu((prev) => !prev);
-  }
   const handleKeys = {
     onEsc:()=>{
       setMenu(false);
@@ -260,7 +257,8 @@ function App() {
     <div className="w-full h-full gap-0 overflow-hidden stack d-center">
       <Suspense fallback={<Loading/>}>
         <Router>
-          <Navbar isActive={menu} secsLeft={secsLeft} onClick={handleNavbarMenu} onEsc={handleKeys.onEsc} />
+          <Navbar isActive={menu} secsLeft={secsLeft} onEsc={handleKeys.onEsc} setIsActive={setMenu}
+          state = {admin ? "admins" : user ? "users" : "notloggedin"} />
           <div className="flex w-full h-full overflow-hidden">
             
             <Menu

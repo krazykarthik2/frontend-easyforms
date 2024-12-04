@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { updateUser, getUserById } from "../../../utils/api_calls/user";
 import { toastPromise } from "../../../utils/toastify";
-function EditUser({__user,token}) {
+import { MdModeEdit } from "react-icons/md";
+function EditUser({ __user, token }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const params = useParams();
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    toastPromise(() => updateUser(params.id,{ name, email},token), {
+    toastPromise(() => updateUser(params.id, { name, email }, token), {
       pending: "Updating user...",
       success: "User updated successfully",
       error: "Failed to update user",
@@ -19,18 +20,18 @@ function EditUser({__user,token}) {
     });
   };
   useEffect(() => {
-    if(!params.id){
-      if(window.location.pathname.includes('me')){
+    if (!params.id) {
+      if (window.location.pathname.includes('me')) {
         navigate("/users/edit/" + __user?._id);
         return;
       }
       return;
     }
     const loadUser = () => {
-      getUserById(params.id,token).then((data) => {
+      getUserById(params.id, token).then((data) => {
         setName(data.name);
         setEmail(data.email);
-      }).catch(err=>{
+      }).catch(err => {
         console.log(err);
       })
     };
@@ -40,9 +41,14 @@ function EditUser({__user,token}) {
     <div className="d-center stack w-full h-full">
       <h1>Edit User</h1>
       <form onSubmit={handleSubmit} className="gap-4 p-4 stack d-center">
-        <input type="text" name="name" value={name} placeholder="Name" autoFocus autoComplete="name" onChange={(e) => setName(e.target.value)}/>
-        <input type="email" name="email" value={email} placeholder="Email" autoComplete="email" onChange={(e) => setEmail(e.target.value)}/>
-        <button type="submit">Edit</button>
+        <input type="text" name="name" value={name} placeholder="Name" autoFocus autoComplete="name" onChange={(e) => setName(e.target.value)} />
+        <input type="email" name="email" value={email} placeholder="Email" autoComplete="email" onChange={(e) => setEmail(e.target.value)} />
+        <button type="submit" className="px-5 py-3 rounded-lg bg-slightly-green d-center gap-2 unbtn">
+          <MdModeEdit size={25} />
+          <span>
+            Edit
+          </span>
+        </button>
       </form>
     </div>
   );
