@@ -1,4 +1,5 @@
 import React from 'react'
+import { FaShareNodes } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 
 function ShareBtn({url}) {
@@ -11,7 +12,9 @@ function ShareBtn({url}) {
     }
   }
   return (
-    <button onClick={handleShare}>Share</button>
+    <button onClick={handleShare} className='unbtn w-full d-center'>
+      <FaShareNodes />
+    </button>
   )
 }
 

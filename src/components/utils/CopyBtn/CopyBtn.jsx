@@ -7,7 +7,7 @@ function CopyBtn({url}) {
     toast.success("Copied to clipboard");
   }
   return (
-    <button onClick={handleCopy}>
+    <button onClick={handleCopy} className='unbtn w-full d-center'>
         <FaCopy size={20} />
     </button>
   )

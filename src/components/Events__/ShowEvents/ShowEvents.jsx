@@ -37,7 +37,7 @@ function ShowEvents({ token }) {
     <div className="w-full h-full d-center stack ">
       {events.length > 0 ? (
         <div className="items-center justify-between w-full h-full stack">
-          <h1>Events {events.length}</h1>
+          <h1>Events ({events.length})</h1>
           <table className="w-full table-border">
             <thead>
               <tr>
