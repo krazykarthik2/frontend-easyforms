@@ -3,6 +3,8 @@ import { userLogin } from "../../../../utils/api_calls/auth.js";
 import { toastPromise } from "../../../../utils/toastify.js";
 import { useNavigate } from "react-router-dom";
 import Password from "../../../utils/Password.jsx";
+import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 function UserLogin({onLogin}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,8 +17,7 @@ function UserLogin({onLogin}) {
       success: "Logged in successfully",
       then: (data) => {
         if (data) {
-          onLogin({role:"user",token:data.token,user:data.user});
-          navigate("/");
+          onLogin({role:"user",token:data.token,user:data.user,then=()=>{navigate(window.location.pathname.includes("?continue=")?window.location.pathname.split("?continue=")[1]:"/");}}); 
         }
       },
     });

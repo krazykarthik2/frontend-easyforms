@@ -172,7 +172,7 @@ function App() {
       path: "/",
     });
   };
-  function handleLogin({ role, token, user }) {
+  function handleLogin({ role, token, user,then=()=>{} }) {
     setToken(token);
     setLoginCookie(role, token);
     
@@ -196,9 +196,14 @@ function App() {
     if (role === "user") {
       setUser(user);
       setAdmin(null);
+      then();
     } else if (role === "admin") {
       setAdmin(user);
       setUser(null);
+      then();
+    }else
+    {
+      then();
     }
   }
   const handleLogout = () => {

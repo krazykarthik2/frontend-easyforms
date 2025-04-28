@@ -210,7 +210,7 @@ function RespondForm({ __admin,__user,token }) {
     }
     if(!__user){
       const path = location.pathname;
-      navigate(`/auth/user/login?continue=/${path}`)
+      navigate(`/auth/user/login?continue=${path}`)
       return;
     }
     if (params.formId) {
