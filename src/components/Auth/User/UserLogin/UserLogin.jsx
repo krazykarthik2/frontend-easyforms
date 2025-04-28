@@ -17,7 +17,7 @@ function UserLogin({onLogin}) {
       success: "Logged in successfully",
       then: (data) => {
         if (data) {
-          onLogin({role:"user",token:data.token,user:data.user,then=()=>{navigate(window.location.pathname.includes("?continue=")?window.location.pathname.split("?continue=")[1]:"/");}}); 
+          onLogin({role:"user",token:data.token,user:data.user,then:()=>{navigate(window.location.search?.includes("?continue=")?window.location.search.split("?continue=")[1]:"/");}}); 
         }
       },
     });
